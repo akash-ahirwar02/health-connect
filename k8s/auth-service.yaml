@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  ports:
+    - port: 8001
+      targetPort: 8001
+  selector:
+    app: auth-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: REPOSITORY_URL/auth-service:IMAGE_TAG
+          env:
+            - name: DATABASE_URL
+              value: postgresql://postgres:postgres@postgres:5432/healthdb
+            - name: SECRET_KEY
+              value: supersecuresecretkey
+          ports:
+            - containerPort: 8001

@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # Databases & Brokers
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: healthdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672" # Management UI
+
+  # Microservices
+  patient-ui:
+    build: ./patient-ui
+    ports:
+      - "3000:80" # Map host 3000 to container 80 (Nginx)
+    depends_on:
+      - api-gateway
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - AUTH_SERVICE_URL=http://auth-service:8001
+      - RECORDS_SERVICE_URL=http://records-service:8002
+      - APPOINTMENT_SERVICE_URL=http://appointment-service:8003
+      - BILLING_SERVICE_URL=http://billing-service:8005
+    depends_on:
+      - auth-service
+      - records-service
+      - appointment-service
+      - billing-service
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/healthdb
+      - SECRET_KEY=supersecuresecretkey
+    depends_on:
+      - postgres
+
+  records-service:
+    build: ./records-service
+    ports:
+      - "8002:8002"
+    environment:
+      - REDIS_ADDR=redis:6379
+      - PORT=8002
+    depends_on:
+      - redis
+
+  analytics-service:
+    build: ./analytics-service
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - QUEUE_NAME=record_events
+    depends_on:
+      - rabbitmq
+
+  appointment-service:
+    build: ./appointment-service
+    ports:
+      - "8003:8003"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/healthdb?sslmode=disable
+      - PORT=8003
+    depends_on:
+      - postgres
+
+  audit-service:
+    build: ./audit-service
+    ports:
+      - "8004:8004"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/healthdb
+    depends_on:
+      - postgres
+
+  billing-service:
+    build: ./billing-service
+    ports:
+      - "8005:8005"
+    environment:
+      - PORT=8005
+
+volumes:
+  postgres_data:

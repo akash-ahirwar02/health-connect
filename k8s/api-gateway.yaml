@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: api-gateway
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: REPOSITORY_URL/api-gateway:IMAGE_TAG
+          env:
+            - name: PORT
+              value: "8080"
+            - name: AUTH_SERVICE_URL
+              value: http://auth-service:8001
+            - name: RECORDS_SERVICE_URL
+              value: http://records-service:8002
+            - name: APPOINTMENT_SERVICE_URL
+              value: http://appointment-service:8003
+            - name: BILLING_SERVICE_URL
+              value: http://billing-service:8005
+          ports:
+            - containerPort: 8080

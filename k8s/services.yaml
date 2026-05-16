@@ -1,0 +1,158 @@
+# Records Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: records-service
+spec:
+  ports:
+    - port: 8002
+  selector:
+    app: records-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: records-service
+spec:
+  selector:
+    matchLabels:
+      app: records-service
+  template:
+    metadata:
+      labels:
+        app: records-service
+    spec:
+      containers:
+        - name: records-service
+          image: REPOSITORY_URL/records-service:IMAGE_TAG
+          env:
+            - name: REDIS_ADDR
+              value: redis:6379
+            - name: PORT
+              value: "8002"
+          ports:
+            - containerPort: 8002
+---
+# Analytics Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-service
+spec:
+  selector:
+    matchLabels:
+      app: analytics-service
+  template:
+    metadata:
+      labels:
+        app: analytics-service
+    spec:
+      containers:
+        - name: analytics-service
+          image: REPOSITORY_URL/analytics-service:IMAGE_TAG
+          env:
+            - name: RABBITMQ_HOST
+              value: rabbitmq
+            - name: QUEUE_NAME
+              value: record_events
+---
+# Appointment Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: appointment-service
+spec:
+  ports:
+    - port: 8003
+  selector:
+    app: appointment-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appointment-service
+spec:
+  selector:
+    matchLabels:
+      app: appointment-service
+  template:
+    metadata:
+      labels:
+        app: appointment-service
+    spec:
+      containers:
+        - name: appointment-service
+          image: REPOSITORY_URL/appointment-service:IMAGE_TAG
+          env:
+            - name: DATABASE_URL
+              value: postgres://postgres:postgres@postgres:5432/healthdb?sslmode=disable
+            - name: PORT
+              value: "8003"
+          ports:
+            - containerPort: 8003
+---
+# Audit Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: audit-service
+spec:
+  ports:
+    - port: 8004
+  selector:
+    app: audit-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audit-service
+spec:
+  selector:
+    matchLabels:
+      app: audit-service
+  template:
+    metadata:
+      labels:
+        app: audit-service
+    spec:
+      containers:
+        - name: audit-service
+          image: REPOSITORY_URL/audit-service:IMAGE_TAG
+          env:
+            - name: DATABASE_URL
+              value: postgresql://postgres:postgres@postgres:5432/healthdb
+          ports:
+            - containerPort: 8004
+---
+# Billing Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: billing-service
+spec:
+  ports:
+    - port: 8005
+  selector:
+    app: billing-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-service
+spec:
+  selector:
+    matchLabels:
+      app: billing-service
+  template:
+    metadata:
+      labels:
+        app: billing-service
+    spec:
+      containers:
+        - name: billing-service
+          image: REPOSITORY_URL/billing-service:IMAGE_TAG
+          env:
+            - name: PORT
+              value: "8005"
+          ports:
+            - containerPort: 8005

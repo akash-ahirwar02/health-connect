@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: patient-ui
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: patient-ui
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patient-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patient-ui
+  template:
+    metadata:
+      labels:
+        app: patient-ui
+    spec:
+      containers:
+        - name: patient-ui
+          image: REPOSITORY_URL/patient-ui:IMAGE_TAG
+          ports:
+            - containerPort: 80
