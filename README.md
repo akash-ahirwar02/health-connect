@@ -20,7 +20,7 @@ The project demonstrates the end-to-end implementation of a mature **DevSecOps**
 
 ## Platform Architecture & DevSecOps Flow
 
-<img width="817" height="767" alt="Screenshot_11" src="https://github.com/user-attachments/assets/9e62352b-ccf0-4f9a-81c4-678bdce21db1" />
+<img width="817" height="767" alt="Screenshot_11" src="https://github.com/user-attachments/assets/aa167b67-ea3f-48fc-90f2-113a775ddd17" />
 
 
 
@@ -89,34 +89,35 @@ Below are the running screenshots demonstrating the successfully deployed and mo
 
 ### 1. Hardened Kubernetes Pods Status
 
-<img width="1362" height="678" alt="Screenshot_8" src="https://github.com/user-attachments/assets/e045840b-5a57-46b8-8052-f175486c05b2" />
+<img width="1362" height="678" alt="Screenshot_8" src="https://github.com/user-attachments/assets/bbe18b59-1ed5-4fd3-83c3-1d4df227abcf" />
+
 
 ### 2. ArgoCD Active Synchronization
 
-<img width="1364" height="683" alt="Screenshot_3" src="https://github.com/user-attachments/assets/cdcfab01-23b7-47d3-829d-439077ce3b4d" />
+<img width="1364" height="683" alt="Screenshot_3" src="https://github.com/user-attachments/assets/5eced935-039a-4dcc-b79b-c51efb44637c" />
 
 
 ### 3. Grafana Observability Dashboard
 
-<img width="1365" height="689" alt="Screenshot_7" src="https://github.com/user-attachments/assets/fc0e40aa-3d04-4caa-98cc-8e261b5b95f9" />
+<img width="1365" height="689" alt="Screenshot_7" src="https://github.com/user-attachments/assets/587d1001-facd-4ba9-98b4-f08b8540463c" />
 
 
 ### 4. Secure Health Connect Portal UI
 
-<img width="1361" height="686" alt="Screenshot_1" src="https://github.com/user-attachments/assets/aa779a89-d3d5-415e-8ee8-35308fd9e722" />
+<img width="1361" height="686" alt="Screenshot_1" src="https://github.com/user-attachments/assets/3f1c09b4-bae1-4c30-b962-2ab8d6c0cf89" />
 
-
-<img width="1360" height="688" alt="Screenshot_9" src="https://github.com/user-attachments/assets/146ede2c-4731-42b2-88c3-7e5f1981b16c" />
+<img width="1360" height="688" alt="Screenshot_9" src="https://github.com/user-attachments/assets/c0dc6a4a-4fec-4999-a54c-c110f78cd9d4" />
 
 
 ### 5. Gitlab Pipeline
 
-<img width="1363" height="678" alt="Screenshot_5" src="https://github.com/user-attachments/assets/977c9af2-b654-4d32-b5cd-e81a721bcf29" />
+<img width="1363" height="678" alt="Screenshot_5" src="https://github.com/user-attachments/assets/6af5487d-e512-4b39-b6e0-55d01d645fde" />
 
 
 ### 6. SonarQube Quality Analysis
 
-<img width="1365" height="767" alt="Screenshot_4" src="https://github.com/user-attachments/assets/4185c1a8-60d7-40fe-8fb3-41266a8aafd5" />
+<img width="1365" height="767" alt="Screenshot_4" src="https://github.com/user-attachments/assets/d4dd60cf-137e-46d6-90e0-877e5c159e54" />
+
 
 ---
 
